@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo app</title>
+    <style>
+       
+        .strike {
+            text-decoration: line-through;
+          
+        }
+         #main > div > button {
+            cursor: pointer;
+            border : none
+        }
+        .change_color > button{
+            color: white;
+            background: transparent;
+            
+        }
+      #main > div{
+            display: grid;
+            grid-template-columns : 19% 19% 19% 19% 19% ;
+            grid-gap: 10px;
+            height: 20px;
+            border: 1px solid rgb(170, 170, 170,0.5);
+          margin: 10px 10%;
+        }
+       
+        .change_color{
+            background-color: green;
+            color: white;
+        }
+        #counter {
+            display: inline-block;
+            margin-left: 70%;
+            font-size: 36px;
+            color: rgb(4, 50, 255)
+        }
+    </style> 
+</head>
+<body>
+    
+    <input id='input_box' type="text" placeholder="Enter your task">
+    <input type="submit" id="submit_btn">
+    <div id="counter">0</div>
+   <div id='main'>
+  <div>
+      <div>Task Name</div>
+      <div>Date</div>
+      <div>Status</div>
+  </div>
+   </div>
+            
+        
+</body>
+</html>
+
+<script>
+    // creating a constructor fxn
+    function Task(n){
+        this.name = n
+        this.date = new Date().getDate() + "/" + new Date().getMonth() + "/" + new Date().getFullYear()
+        this.status = 'False'
+    }
+
+//give functionality on submit btn
+let btn = document.getElementById('submit_btn')
+
+
+let count = 0;
+
+function createTask(){
+// now we need input value and parent
+let parent = document.getElementById('main')
+
+
+
+    let task_name = document.getElementById('input_box')
+let task_value = task_name.value
+// create a task_object with constructor function
+    let task_obj = new Task(task_value)
+    console.log(task_obj)
+/*
+task_obj = {
+    name: kartik,
+    date: 1/1/1
+
+}
+*/
+    //create a div element 
+    let div = document.createElement('div')
+
+    let name = document.createElement('div')
+    name.textContent = task_obj.name
+    let date = document.createElement('div')
+    date.textContent = task_obj.date
+    let status  = document.createElement('div')
+    status.textContent = task_obj.status
+
+
+   
+
+// console.log(div)
+    //create done btn ,remove btn
+    let done_btn = document.createElement('button')
+    done_btn.setAttribute('class','done_btn')
+    done_btn.textContent = 'Done'
+    done_btn.onclick = function(){
+        // console.log('done btn is working')
+        toggle_task(task_obj)
+        status.textContent = task_obj.status
+        div.setAttribute('class','change_color')
+        name.setAttribute('class','strike')
+    }
+    let remove_btn = document.createElement('button')
+    remove_btn.textContent = 'Remove'
+    remove_btn.onclick = function(){
+        // console.log('remove is working')
+        parent.removeChild(div)
+        count--
+        console.log(count)
+        counter.textContent = count
+    }
+
+
+
+    div.append(name,date,status,done_btn,remove_btn)
+
+
+    
+    if (task_obj.name != ''){
+        parent.append(div)
+        count++
+ console.log(count)
+    }
+//    console.log(task_obj.status)
+//    
+//    console.log(task_obj.status)
+  //to clear input box
+   task_name.value = ''
+
+   let counter = document.getElementById('counter')
+   counter.textContent = count
+
+}
+
+
+
+function toggle_task(task_obj){
+    if (task_obj.status === 'False'){
+        task_obj.status = 'True'
+    }else {
+        task_obj.status = 'False'
+    }
+
+}
+
+btn.addEventListener('click',createTask)
+
+
+
+</script>
